@@ -9,8 +9,15 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.routing import Mount, Route
+from mcp.server.transport_security import TransportSecuritySettings
 
-mcp = FastMCP("Patient Snapshot MCP", json_response=True)
+mcp = FastMCP(
+    "Patient Snapshot MCP",
+    json_response=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False,
+    ),
+)
 
 FHIR_BASE_URL = os.getenv("FHIR_BASE_URL", "https://hapi.fhir.org/baseR4")
 MCP_API_KEY = os.getenv("MCP_API_KEY", "change-me")
